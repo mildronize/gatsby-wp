@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Link, graphql } from "gatsby"
+import { url } from "../config";
 
 class Homepage extends Component {
   render() {
@@ -22,7 +23,7 @@ class Homepage extends Component {
         <h1>Posts</h1>
         {data.allWordpressPost.edges.map(({ node }) => (
           <div key={node.slug}>
-            <Link to={node.slug}>
+            <Link to={url(node.slug)}>
               <h2>{node.title}</h2>
             </Link>
             <h3>{node.excerpt}</h3>

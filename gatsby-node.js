@@ -61,7 +61,7 @@ exports.createPages = async ({ graphql, actions }) => {
       // as a template component. The `context` is
       // optional but is often necessary so the template
       // can query data specific to each page.
-      path: `/${edge.node.slug}/`,
+      path: `/post/${edge.node.slug}/`,
       component: slash(pageTemplate),
       context: {
         id: edge.node.id,
@@ -75,7 +75,7 @@ exports.createPages = async ({ graphql, actions }) => {
   // The Post ID is prefixed with 'POST_'
   allWordpressPost.edges.forEach(edge => {
     createPage({
-      path: `/${edge.node.slug}/`,
+      path: `/post/${edge.node.slug}/`,
       component: slash(postTemplate),
       context: {
         id: edge.node.id,
