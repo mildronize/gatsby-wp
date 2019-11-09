@@ -61,7 +61,7 @@ exports.createPages = async ({ graphql, actions }) => {
       // as a template component. The `context` is
       // optional but is often necessary so the template
       // can query data specific to each page.
-      path: `/post/${edge.node.slug}/`,
+      path: `/${edge.node.slug}/`,
       component: slash(pageTemplate),
       context: {
         id: edge.node.id,
