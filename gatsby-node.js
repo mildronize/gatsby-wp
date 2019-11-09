@@ -31,6 +31,7 @@ exports.createPages = async ({ graphql, actions }) => {
           node {
             id
             slug
+            date
             status
             template
             format

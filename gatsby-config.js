@@ -18,5 +18,7 @@ module.exports = {
         excludedRoutes: ["/wp/v2/users/me", "/acf/v2/options", "/wp/v2/settings"]
       },
     },
+    `gatsby-plugin-sass`,
+    `gatsby-plugin-react-helmet`
   ],
 }

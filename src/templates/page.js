@@ -1,15 +1,20 @@
 import React, { Component } from "react"
 import { graphql } from "gatsby"
+import PageLayout from "../components/layouts/PageLayout"
 
 class Page extends Component {
   render() {
     const StaticPage = this.props.data.wordpressPage
 
     return (
-      <>
-        <h1>{StaticPage.title}</h1>
-        <div>{StaticPage.content}</div>
-      </>
+      <PageLayout>
+        <div
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: StaticPage.content,
+              }}
+            />
+      </PageLayout>
     )
   }
 }

@@ -5,13 +5,20 @@
   "version": "0.1.0",
   "author": "Vishwa Mehta <vishwa.mehta30@gmail.com>",
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "gatsby": "^2.13.73",
+    "gatsby-plugin-react-helmet": "^3.1.13",
+    "gatsby-plugin-sass": "^2.1.20",
     "gatsby-source-wordpress": "^3.0.0",
     "gitignore": "^0.6.0",
     "global": "^4.4.0",
+    "luxon": "^1.21.1",
+    "node-sass": "^4.13.0",
+    "prismjs": "^1.17.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "reactstrap": "^8.1.1"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
