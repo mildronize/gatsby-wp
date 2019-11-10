@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import HtmlToReact from 'html-to-react';
 import he from 'he';
+import PropTypes from "prop-types"
 
 const HtmlToReactParser = HtmlToReact.Parser;
 const isValidNode = () => true;
@@ -56,21 +57,45 @@ const processingInstructions = [
 const htmlToReactParser = new HtmlToReactParser();
 
 // export default class PostContent extends Component {
-const PostContent = ({ htmlContent }) => {
+
+class PostContent extends Component {
+
+    state = {
+        isLoading: true,
+        newContent: ''
+    }
+
+    async componentDidMount(){
+        const newContent = await htmlToReactParser.parseWithInstructions(
+            this.props.htmlContent,
+            isValidNode,
+            processingInstructions,
+          );
+        this.setState({ newContent });
+        this.setState({ isLoading: false });
+      }
 
     // console.log(htmlContent);
-    const newContent = htmlToReactParser.parseWithInstructions(
-      htmlContent,
-      isValidNode,
-      processingInstructions,
-    );
 
-    return (
-      <>
-        {newContent}        
-      </>
-    )
+    render(){
+
+        const { htmlContent } = this.props.htmlContent;
+        return (
+        <>
+            {this.state.isLoading?
+                <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                :
+                <> {this.state.newContent}</>
+            } 
+        </>
+        );
+    }
   }
+
+PostContent.propTypes = {
+    htmlContent: PropTypes.string.isRequired,
+}
+  
 
 export default PostContent;
 
