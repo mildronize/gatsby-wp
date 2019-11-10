@@ -5,11 +5,12 @@ import { DateTime } from 'luxon'
 import Config from '../config'
 import Prism from 'prismjs';
 import PageLayout from "../components/layouts/PageLayout"
+import PostContent from "../components/PostContent"
 
 class Post extends Component {
 
   componentDidMount() {
-    Prism.highlightAll();
+    Prism.highlightAll(); 
   }
 
   render() {
@@ -25,7 +26,8 @@ class Post extends Component {
               }
               {/* <span id="viewer"></span> */}
             </p> 
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          {/* <div dangerouslySetInnerHTML={{ __html: post.content }} /> */}
+          <PostContent htmlContent={post.content} />
         </div>
       </PageLayout>
     )
