@@ -61,9 +61,11 @@ export default class PreviewPage extends Component {
         <Helmet>
           <title>{`Preview: ${title}`}</title>
         </Helmet>
-        <center><h3 className="preview-header">-- Preview Mode --</h3></center>
+        <section>
+          <center><h3 className="preview-header">-- Preview Mode --</h3></center>
+        </section>
         {isLoading ? <ArticleLoader /> :
-          <>
+          <article>
             <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title, }} />
             <p class="post-date">
               {
@@ -74,7 +76,7 @@ export default class PreviewPage extends Component {
             <div
               dangerouslySetInnerHTML={{ __html: content }}
             />
-          </>
+          </article>
         }
 
       </PageLayout>

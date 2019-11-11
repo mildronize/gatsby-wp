@@ -18,7 +18,7 @@ class Post extends Component {
 
     return (
       <PageLayout>
-        <div>
+        <article>
           <h1 class="post-title" dangerouslySetInnerHTML={{ __html: post.title,  }}/>
             <p class="post-date">
               {
@@ -28,7 +28,7 @@ class Post extends Component {
             </p> 
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
           {/* <PostContent htmlContent={post.content} /> */}
-        </div>
+        </article>
       </PageLayout>
     )
   }

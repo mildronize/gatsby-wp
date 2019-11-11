@@ -7,12 +7,12 @@ class PageLayout extends Component {
     render(){
         const { children } = this.props;
         return (
-            <div>
+            <>
                 <Header/>
                 <Navbar />
                 <div className="page-container">{children}</div>
                 <Footer/>
-            </div>
+            </>
         )
     }
 }

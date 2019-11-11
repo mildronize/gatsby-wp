@@ -11,24 +11,24 @@ class BlogPage extends Component {
 
     return (
       <PageLayout>
-  
-        <h1>Archive</h1>
+        <section>
+          <h1>Archive</h1>
 
-        {data.allWordpressPost.edges.map(({ node }) => (
-          <div key={node.slug}>
-            <Link to={url(node.slug)}>
-              <h2>{node.title}</h2>
-            </Link>
-            <span
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: node.excerpt,
-              }}
-            />
-          </div>
-        ))}
-
-        </PageLayout>
+          {data.allWordpressPost.edges.map(({ node }) => (
+            <div key={node.slug}>
+              <Link to={url(node.slug)}>
+                <h2>{node.title}</h2>
+              </Link>
+              <span
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: node.excerpt,
+                }}
+              />
+            </div>
+          ))}
+        </section>
+      </PageLayout>
     )
   }
 }

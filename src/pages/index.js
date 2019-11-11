@@ -29,16 +29,18 @@ class Homepage extends Component {
 
     return (
       <PageLayout>
-          <span
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: data.wordpressPage.content,
-              }}
-            />
-          <hr />
+        <section
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: data.wordpressPage.content,
+          }}
+        />
+        <hr />
+        <section>
           <div className="page-section-header">Latest Posts</div>
           <PostList posts={data.allWordpressPost.edges} />
           <center><Link to="/blog/">All blog posts</Link></center>
+        </section>
       </PageLayout>
     )
   }

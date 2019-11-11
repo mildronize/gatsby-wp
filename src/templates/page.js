@@ -8,7 +8,7 @@ class Page extends Component {
 
     return (
       <PageLayout>
-        <div
+        <article
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{
                 __html: StaticPage.content,
