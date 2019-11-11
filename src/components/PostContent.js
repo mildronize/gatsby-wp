@@ -1,78 +1,79 @@
-import React, { Component } from 'react'
-import Helmet from 'react-helmet'
-import fetch from 'isomorphic-unfetch'
-import Config from '../config';
+import React, { Component } from "react";
+import Helmet from "react-helmet";
+import fetch from "isomorphic-unfetch";
+import Config from "../config";
 // import QueryString from 'query-string';
-import PageLayout from '../components/layouts/PageLayout';
-import { DateTime } from 'luxon'
-import Prism from 'prismjs';
-import 'prismjs/components/prism-python';
+import PageLayout from "../components/layouts/PageLayout";
+import { DateTime } from "luxon";
+import Prism from "prismjs";
+import "prismjs/components/prism-python";
 
 export default class PostContent extends Component {
-
   state = {
-     post: {
-       title: "",
-       content: ""
-     },
-     errorMsg: null
+    post: {
+      title: "",
+      content: ""
+    },
+    errorMsg: null
   };
 
-  async componentDidMount(){
+  async componentDidMount() {
     await this.loadData();
-   
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     Prism.highlightAll();
   }
 
-  async loadData(){
+  async loadData() {
     // const parsed = QueryString.parse(window.location.search);
     const { p } = this.props;
     console.log(p);
     try {
       const response = await fetch(`${Config.WPAPI.previewById}/${p}`);
       const data = await response.json();
-      if ('message' in data){
+      if ("message" in data) {
         this.setState({ errorMsg: data.message });
         console.log(data.message);
-      }else if(data.id == null){
+      } else if (data.id == null) {
         this.setState({ errorMsg: "The preview isn't available!" });
-      }else {
+      } else {
         this.setState({
           post: data
         });
       }
-      
-    } catch (error) { 
-     console.log(error);
+    } catch (error) {
+      console.log(error);
     }
     console.log(this.state.errorMsg);
   }
 
-  render () {
-    const { title, content, date, errorMsg } = this.state.post
+  render() {
+    const { title, content, date, errorMsg } = this.state.post;
 
     return (
       <>
         <Helmet>
           <title>{`Preview: ${title}`}</title>
         </Helmet>
-        <center><h3 className="preview-header">-- Preview Mode --</h3></center>
-        <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title,  }}/>
+        <center>
+          <h3 className="preview-header">-- Preview Mode --</h3>
+        </center>
+        <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title }} />
         <p class="post-date">
-              {date}
-              {/* <span id="viewer"></span> */}
-            </p> 
-        {errorMsg!=null?<blockquote><p>{errorMsg}</p></blockquote>:<></>}
-        <div
-          dangerouslySetInnerHTML={{ __html:  content }}
-        />
-        <div>
-        </div>
-        
+          {date}
+          {/* <span id="viewer"></span> */}
+        </p>
+        {errorMsg != null ? (
+          <blockquote>
+            <p>{errorMsg}</p>
+          </blockquote>
+        ) : (
+          <></>
+        )}
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div></div>
       </>
-    )
+    );
   }
 }

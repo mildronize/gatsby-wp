@@ -1,12 +1,11 @@
-import React, { Component } from "react"
-import { Link, graphql } from "gatsby"
-import PageLayout from "../components/layouts/PageLayout"
-import PostList from "../components/PostList"
+import React, { Component } from "react";
+import { Link, graphql } from "gatsby";
+import PageLayout from "../components/layouts/PageLayout";
+import PostList from "../components/PostList";
 // import QueryString from 'query-string';
 // import PostContent from "../components/PostContent";
 
 class Homepage extends Component {
-
   // state = {
   //   isPreview: false,
   //   pid: null,
@@ -25,32 +24,34 @@ class Homepage extends Component {
   // }
 
   render() {
-    const data = this.props.data
+    const data = this.props.data;
 
     return (
       <PageLayout>
         <section
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: data.wordpressPage.content,
+            __html: data.wordpressPage.content
           }}
         />
         <hr />
         <section>
           <div className="page-section-header">Latest Posts</div>
           <PostList posts={data.allWordpressPost.edges} />
-          <center><Link to="/blog/">All blog posts</Link></center>
+          <center>
+            <Link to="/blog/">All blog posts</Link>
+          </center>
         </section>
       </PageLayout>
-    )
+    );
   }
 }
 
-export default Homepage
+export default Homepage;
 
 export const pageQuery = graphql`
   query {
-    wordpressPage(slug: {eq: "welcome"}) {
+    wordpressPage(slug: { eq: "welcome" }) {
       id
       slug
       content
@@ -66,4 +67,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

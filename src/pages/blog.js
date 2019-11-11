@@ -1,13 +1,12 @@
-import React, { Component } from "react"
-import { Link, graphql } from "gatsby"
+import React, { Component } from "react";
+import { Link, graphql } from "gatsby";
 import { url } from "../config";
 import "./../styles/index.scss";
 import PageLayout from "../components/layouts/PageLayout";
 
-
 class BlogPage extends Component {
   render() {
-    const data = this.props.data
+    const data = this.props.data;
 
     return (
       <PageLayout>
@@ -22,22 +21,22 @@ class BlogPage extends Component {
               <span
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
-                  __html: node.excerpt,
+                  __html: node.excerpt
                 }}
               />
             </div>
           ))}
         </section>
       </PageLayout>
-    )
+    );
   }
 }
 
-export default BlogPage
+export default BlogPage;
 
 export const pageQuery = graphql`
   query {
-    wordpressPage(slug: {eq: "welcome"}) {
+    wordpressPage(slug: { eq: "welcome" }) {
       id
       slug
       content
@@ -52,4 +51,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

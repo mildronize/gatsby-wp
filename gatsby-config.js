@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `An example to learn how to source data form WordPress`,
-    subtitle: `Sourcing data from WordPress`,
+    subtitle: `Sourcing data from WordPress`
   },
   plugins: [
     {
@@ -15,10 +15,14 @@ module.exports = {
         protocol: `https`,
         hostingWPCOM: false,
         useACF: false,
-        excludedRoutes: ["/wp/v2/users/me", "/acf/v2/options", "/wp/v2/settings"]
-      },
+        excludedRoutes: [
+          "/wp/v2/users/me",
+          "/acf/v2/options",
+          "/wp/v2/settings"
+        ]
+      }
     },
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-helmet`
-  ],
-}
+  ]
+};

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from "gatsby"
+import React, { useState } from "react";
+import { Link } from "gatsby";
 import {
   Collapse,
   Navbar,
@@ -8,7 +8,7 @@ import {
   Nav,
   NavItem,
   NavLink
-} from 'reactstrap';
+} from "reactstrap";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,18 +20,34 @@ const Header = () => {
       <div>
         <Navbar color="light" light expand="sm" className="bg-white ">
           <div className="page-container">
-            <NavbarBrand><Link to="/"><div className="logo">mildronize </div></Link></NavbarBrand>
+            <NavbarBrand>
+              <Link to="/">
+                <div className="logo">mildronize </div>
+              </Link>
+            </NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink><Link className="nav-link" to="/">home</Link></NavLink>
+                  <NavLink>
+                    <Link className="nav-link" to="/">
+                      home
+                    </Link>
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink><Link className="nav-link" to="/about">about</Link></NavLink>
+                  <NavLink>
+                    <Link className="nav-link" to="/about">
+                      about
+                    </Link>
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink><Link className="nav-link" to="/blog">blog</Link></NavLink>
+                  <NavLink>
+                    <Link className="nav-link" to="/blog">
+                      blog
+                    </Link>
+                  </NavLink>
                 </NavItem>
                 {/* <NavItem>
                   <NavLink >
@@ -46,7 +62,6 @@ const Header = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Header;
-
