@@ -1,101 +1,78 @@
 import React, { Component } from 'react'
-// https://github.com/octalmage/jason.stallin.gs/blob/master/src/components/BlogContent.js#L11
+import Helmet from 'react-helmet'
+import fetch from 'isomorphic-unfetch'
+import Config from '../config';
+// import QueryString from 'query-string';
+import PageLayout from '../components/layouts/PageLayout';
+import { DateTime } from 'luxon'
+import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark as theme } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import HtmlToReact from 'html-to-react';
-import he from 'he';
-import PropTypes from "prop-types"
+export default class PostContent extends Component {
 
-const HtmlToReactParser = HtmlToReact.Parser;
-const isValidNode = () => true;
-const getLanguageFromCssClass = cssClass => {
-  if (cssClass == undefined || cssClass == null )return "";
-  const classes = cssClass.split(' ');
-  let target_class = "";
-  classes.forEach(element => {
-    if (element.indexOf("language")>=0){
-      target_class = element;
-      return 0;
-    }
-  });
-  let language="";
-  if(target_class!=""){
-    language = target_class.replace('language-','');
+  state = {
+     post: {
+       title: "",
+       content: ""
+     },
+     errorMsg: null
+  };
+
+  async componentDidMount(){
+    await this.loadData();
+   
   }
-  return language;
-};
-const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
-const processingInstructions = [
-  {
-    // Replace <pre> with SyntaxHighlighter.
-    shouldProcessNode: node => node.name && node.name === 'pre',
-    processNode: (node, children, index) => {
-      // Support <code> tags inside of <pre> tags.
-      const nodeToProcess = node.children[0].name === 'code' ? node.children[0] : node;
-      // console.log(node.attribs.class);
-      console.log( getLanguageFromCssClass(node.children[0].attribs.class));
-      const language = getLanguageFromCssClass(node.children[0].attribs.class);
-      console.log(language);
-      const content = he.decode(nodeToProcess.children.map(n => n.data).join(''));
-      return (
-        <SyntaxHighlighter
-          key={index}
-          language={language}
-          style={theme}
-          // codeTagProps={{ style: { lineHeight: '1.5em', fontSize: '0.9em' } }}
-        >
-          {content}
-        </SyntaxHighlighter>
-      );
-    },
-  },
-  {
-    shouldProcessNode: () => true,
-    processNode: processNodeDefinitions.processDefaultNode,
-  }];
-const htmlToReactParser = new HtmlToReactParser();
 
-// export default class PostContent extends Component {
+  componentDidUpdate(){
+    Prism.highlightAll();
+  }
 
-class PostContent extends Component {
-
-    state = {
-        isLoading: true,
-        newContent: ''
-    }
-
-    async componentDidMount(){
-        const newContent = await htmlToReactParser.parseWithInstructions(
-            this.props.htmlContent,
-            isValidNode,
-            processingInstructions,
-          );
-        this.setState({ newContent });
-        this.setState({ isLoading: false });
+  async loadData(){
+    // const parsed = QueryString.parse(window.location.search);
+    const { p } = this.props;
+    console.log(p);
+    try {
+      const response = await fetch(`${Config.WPAPI.previewById}/${p}`);
+      const data = await response.json();
+      if ('message' in data){
+        this.setState({ errorMsg: data.message });
+        console.log(data.message);
+      }else if(data.id == null){
+        this.setState({ errorMsg: "The preview isn't available!" });
+      }else {
+        this.setState({
+          post: data
+        });
       }
-
-    // console.log(htmlContent);
-
-    render(){
-
-        const { htmlContent } = this.props.htmlContent;
-        return (
-        <>
-            {this.state.isLoading?
-                <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                :
-                <> {this.state.newContent}</>
-            } 
-        </>
-        );
+      
+    } catch (error) { 
+     console.log(error);
     }
+    console.log(this.state.errorMsg);
   }
 
-PostContent.propTypes = {
-    htmlContent: PropTypes.string.isRequired,
+  render () {
+    const { title, content, date, errorMsg } = this.state.post
+
+    return (
+      <>
+        <Helmet>
+          <title>{`Preview: ${title}`}</title>
+        </Helmet>
+        <center><h3 className="preview-header">-- Preview Mode --</h3></center>
+        <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title,  }}/>
+        <p class="post-date">
+              {date}
+              {/* <span id="viewer"></span> */}
+            </p> 
+        {errorMsg!=null?<blockquote><p>{errorMsg}</p></blockquote>:<></>}
+        <div
+          dangerouslySetInnerHTML={{ __html:  content }}
+        />
+        <div>
+        </div>
+        
+      </>
+    )
+  }
 }
-  
-
-export default PostContent;
-
