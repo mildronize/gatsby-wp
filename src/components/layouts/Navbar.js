@@ -33,11 +33,11 @@ const Header = () => {
                 <NavItem>
                   <NavLink><Link className="nav-link" to="/blog">blog</Link></NavLink>
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink >
                     <Link className="nav-link" to="/search"><i class="fas fa-search"></i></Link>
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
               </Nav>
             </Collapse>
           </div>

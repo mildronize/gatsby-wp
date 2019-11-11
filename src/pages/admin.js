@@ -2,8 +2,10 @@ import React, { Component } from "react"
 
 class BlogPage extends Component {
 
-    constructor() {
-        window.location.replace("https://host.mildronize.com/wp-admin");
+    componentDidMount(){
+        if (typeof window !== 'undefined') {
+            window.location.replace("https://host.mildronize.com/wp-admin");
+          }
     }
 
     render() {
