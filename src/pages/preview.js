@@ -6,71 +6,77 @@ import QueryString from 'query-string';
 import PageLayout from '../components/layouts/PageLayout';
 import { DateTime } from 'luxon'
 import Prism from 'prismjs';
+import { ArticleLoader } from '../components/Loaders';
 import 'prismjs/components/prism-python';
 
 export default class PreviewPage extends Component {
 
   state = {
-     post: {
-       title: "",
-       content: ""
-     },
-     errorMsg: null
+    post: {
+      title: "",
+      content: ""
+    },
+    errorMsg: null,
+    isLoading: true
   };
 
-  async componentDidMount(){
+  async componentDidMount() {
     await this.loadData();
-   
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     Prism.highlightAll();
   }
 
-  async loadData(){
+  async loadData() {
     const parsed = QueryString.parse(window.location.search);
     const { id } = parsed;
     try {
       const response = await fetch(`${Config.WPAPI.previewById}/${id}`);
       const data = await response.json();
-      if ('message' in data){
+
+      if ('message' in data) {
         this.setState({ errorMsg: data.message });
         console.log(data.message);
-      }else if(data.id == null){
+      } else if (data.id == null) {
         this.setState({ errorMsg: "The preview isn't available!" });
-      }else {
+      } else {
         this.setState({
           post: data
         });
       }
-      
-    } catch (error) { 
-     console.log(error);
+      this.setState({ isLoading: false });
+
+    } catch (error) {
+      console.log(error);
     }
     console.log(this.state.errorMsg);
   }
 
-  render () {
-    const { title, content, date, errorMsg } = this.state.post
-
+  render() {
+    const { title, content, date } = this.state.post;
+    const { errorMsg, isLoading } = this.state;
     return (
       <PageLayout>
         <Helmet>
           <title>{`Preview: ${title}`}</title>
         </Helmet>
         <center><h3 className="preview-header">-- Preview Mode --</h3></center>
-        <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title,  }}/>
-        <p class="post-date">
-              {date}
-              {/* <span id="viewer"></span> */}
-            </p> 
-        {errorMsg!=null?<blockquote><p>{errorMsg}</p></blockquote>:<></>}
-        <div
-          dangerouslySetInnerHTML={{ __html:  content }}
-        />
-        <div>
-        </div>
-        
+        {isLoading ? <ArticleLoader /> :
+          <>
+            <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title, }} />
+            <p class="post-date">
+              {
+                DateTime.fromSQL(date, { zone: Config.timezone }).toFormat('MMMM d, yyyy')
+              }
+            </p>
+            {errorMsg != null ? <blockquote><p>{errorMsg}</p></blockquote> : <></>}
+            <div
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </>
+        }
+
       </PageLayout>
     )
   }
