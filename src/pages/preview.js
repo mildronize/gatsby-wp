@@ -4,7 +4,8 @@ import fetch from 'isomorphic-unfetch'
 import Config from '../config';
 import QueryString from 'query-string';
 import PageLayout from '../components/layouts/PageLayout';
-import PostContent from '../components/PostContent';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
 
 export default class PreviewPage extends Component {
 
@@ -21,9 +22,9 @@ export default class PreviewPage extends Component {
    
   }
 
-  // componentDidUpdate(){
-  //   Prism.highlightAll();
-  // }
+  componentDidUpdate(){
+    Prism.highlightAll();
+  }
 
   async loadData(){
     const parsed = QueryString.parse(window.location.search);
@@ -31,10 +32,11 @@ export default class PreviewPage extends Component {
     try {
       const response = await fetch(`${Config.WPAPI.previewById}/${id}`);
       const data = await response.json();
-      // console.log(data);
       if ('message' in data){
         this.setState({ errorMsg: data.message });
         console.log(data.message);
+      }else if(data.id == null){
+        this.setState({ errorMsg: "The preview isn't available!" });
       }else {
         this.setState({
           post: data
@@ -52,15 +54,15 @@ export default class PreviewPage extends Component {
     return (
       <PageLayout>
         <Helmet>
-          <title>{title}</title>
+          <title>{`Preview: ${title}`}</title>
         </Helmet>
+        <center><h3 className="preview-header">-- Preview Mode --</h3></center>
         <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title,  }}/>
-        <h1>{this.state.errorMsg}</h1>
-        {/* <div
+        <blockquote><p>{this.state.errorMsg}</p></blockquote>
+        <div
           dangerouslySetInnerHTML={{ __html:  content }}
-        /> */}
+        />
         <div>
-        <PostContent htmlContent={content} />
         </div>
         
       </PageLayout>
