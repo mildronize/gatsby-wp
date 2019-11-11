@@ -3,15 +3,15 @@ import { graphql } from "gatsby"
 import PropTypes from "prop-types"
 import { DateTime } from 'luxon'
 import Config from '../config'
-// import Prism from 'prismjs';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-python';
 import PageLayout from "../components/layouts/PageLayout"
-import PostContent from "../components/PostContent"
 
 class Post extends Component {
 
-  // componentDidMount() {
-  //   Prism.highlightAll(); 
-  // }
+  componentDidMount() {
+    Prism.highlightAll(); 
+  }
 
   render() {
     const post = this.props.data.wordpressPost
@@ -26,8 +26,8 @@ class Post extends Component {
               }
               {/* <span id="viewer"></span> */}
             </p> 
-          {/* <div dangerouslySetInnerHTML={{ __html: post.content }} /> */}
-          <PostContent htmlContent={post.content} />
+          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          {/* <PostContent htmlContent={post.content} /> */}
         </div>
       </PageLayout>
     )
