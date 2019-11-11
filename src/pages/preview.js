@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch'
 import Config from '../config';
 import QueryString from 'query-string';
 import PageLayout from '../components/layouts/PageLayout';
+import { DateTime } from 'luxon'
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 
@@ -14,7 +15,7 @@ export default class PreviewPage extends Component {
        title: "",
        content: ""
      },
-     errorMsg: ""
+     errorMsg: null
   };
 
   async componentDidMount(){
@@ -46,10 +47,11 @@ export default class PreviewPage extends Component {
     } catch (error) { 
      console.log(error);
     }
+    console.log(this.state.errorMsg);
   }
 
   render () {
-    const { title, content } = this.state.post
+    const { title, content, date, errorMsg } = this.state.post
 
     return (
       <PageLayout>
@@ -58,7 +60,11 @@ export default class PreviewPage extends Component {
         </Helmet>
         <center><h3 className="preview-header">-- Preview Mode --</h3></center>
         <h1 class="post-title" dangerouslySetInnerHTML={{ __html: title,  }}/>
-        <blockquote><p>{this.state.errorMsg}</p></blockquote>
+        <p class="post-date">
+              {date}
+              {/* <span id="viewer"></span> */}
+            </p> 
+        {errorMsg!=null?<blockquote><p>{errorMsg}</p></blockquote>:<></>}
         <div
           dangerouslySetInnerHTML={{ __html:  content }}
         />
