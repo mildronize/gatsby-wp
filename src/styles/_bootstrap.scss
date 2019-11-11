@@ -16,6 +16,12 @@
 // Copy of this font => @import url('https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,500,600&display=swap');
 @import "_font-bai-jamjuree.css";
 
+// Color
+
+$theme-colors: (
+  "primary": #0057A3,
+);
+
 $body-color:  #363636;
 
 $font-family-thai: "Bai Jamjuree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
