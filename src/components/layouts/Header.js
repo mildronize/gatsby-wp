@@ -11,7 +11,7 @@ class Header extends Component {
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/favicon.png" />
 
-        <title>My site</title>
+        <title>Next version of Mildronize.com</title>
       </Helmet>
     );
   }

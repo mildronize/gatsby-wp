@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
 import PageLayout from "../components/layouts/PageLayout";
-import PostList from "../components/PostList";
+// import PostList from "../components/PostList";
+import { DateTime } from "luxon";
+import Config from "../config";
 // import QueryString from 'query-string';
 // import PostContent from "../components/PostContent";
+import LazyLoad from "react-lazyload";
+import Prism from "prismjs";
+import "prismjs/components/prism-python";
 
 class Homepage extends Component {
-  // state = {
-  //   isPreview: false,
-  //   pid: null,
-  // }
+  state = {
+    posts: []
+  };
 
   // componentDidMount(){
   //     this.checkParam();
@@ -22,6 +26,11 @@ class Homepage extends Component {
   //     this.setState({ isPreview: true, pid: p });
   //   }
   // }
+
+  loadItems(page) {
+    // var self = this;
+    console.log(page);
+  }
 
   render() {
     const data = this.props.data;
@@ -37,10 +46,13 @@ class Homepage extends Component {
         <hr />
         <section>
           <div className="page-section-header">Latest Posts</div>
-          <PostList posts={data.allWordpressPost.edges} />
-          <center>
-            <Link to="/blog/">All blog posts</Link>
-          </center>
+          {/* <PostList posts={data.allWordpressPost.edges} /> */}
+          {data.allWordpressPost.edges.map(node => (
+            <LazyLoad key={node.slug}>
+              <Post post={node} />
+              <div className="post-ending-hr" />
+            </LazyLoad>
+          ))}
         </section>
       </PageLayout>
     );
@@ -73,3 +85,27 @@ export const pageQuery = graphql`
     }
   }
 `;
+
+class Post extends Component {
+  componentDidMount() {
+    Prism.highlightAll();
+  }
+
+  render() {
+    const { post } = this.props;
+    return (
+      <article>
+        <h1
+          class="post-title"
+          dangerouslySetInnerHTML={{ __html: post.node.title }}
+        />
+        <p class="post-date">
+          {DateTime.fromISO(post.node.date, { zone: Config.timezone }).toFormat(
+            "MMMM d, yyyy"
+          )}
+        </p>
+        <div dangerouslySetInnerHTML={{ __html: post.node.content }} />
+      </article>
+    );
+  }
+}
