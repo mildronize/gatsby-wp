@@ -6,9 +6,9 @@ import { DateTime } from "luxon";
 import Config from "../config";
 // import QueryString from 'query-string';
 // import PostContent from "../components/PostContent";
-import LazyLoad from "react-lazyload";
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
+import PostList from "../components/PostList";
 
 class Homepage extends Component {
   state = {
@@ -27,11 +27,6 @@ class Homepage extends Component {
   //   }
   // }
 
-  loadItems(page) {
-    // var self = this;
-    console.log(page);
-  }
-
   render() {
     const data = this.props.data;
 
@@ -46,13 +41,7 @@ class Homepage extends Component {
         <hr />
         <section>
           <div className="page-section-header">Latest Posts</div>
-          {/* <PostList posts={data.allWordpressPost.edges} /> */}
-          {data.allWordpressPost.edges.map(node => (
-            <LazyLoad key={node.slug}>
-              <Post post={node} />
-              <div className="post-ending-hr" />
-            </LazyLoad>
-          ))}
+          <PostList posts={data.allWordpressPost.edges} />
         </section>
       </PageLayout>
     );
