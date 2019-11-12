@@ -61,8 +61,13 @@ export const pageQuery = graphql`
         node {
           title
           date
-          excerpt
+          content
           slug
+          tags {
+            name
+            slug
+            id
+          }
         }
       }
     }

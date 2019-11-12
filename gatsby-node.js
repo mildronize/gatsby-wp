@@ -35,6 +35,11 @@ exports.createPages = async ({ graphql, actions }) => {
             status
             template
             format
+            tags {
+              name
+              slug
+              id
+            }
           }
         }
       }

@@ -27,6 +27,8 @@
     "reactstrap": "^8.1.1"
   },
   "devDependencies": {
+    "husky": ">=1",
+    "lint-staged": ">=8",
     "prettier": "^1.18.2"
   },
   "keywords": [
@@ -35,9 +37,21 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
+    "clean": "rm -rf public .cache",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "dev": "npm run develop",
     "serve": "gatsby serve"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

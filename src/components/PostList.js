@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import Config, { url } from "../config";
 
 const PostList = ({ posts }) => {
+  // console.log(posts);
   return (
     <div className="postlist">
       {posts.map(({ node }) => (
@@ -23,15 +24,28 @@ const PostList = ({ posts }) => {
                 }}
               />
             </Link>
-            <div>
-              {/* {post.tags.map(tag => (
-              <a key={tag.term_id} href="#" className="tag badge badge-light">{tag.name}</a>
-            ))} */}
-            </div>
+            <Tag tags={node.tags} />
           </div>
         </div>
       ))}
     </div>
   );
 };
+
+const Tag = ({ tags }) => {
+  return (
+    <div class="tags">
+      {tags.map(tag => (
+        <Link
+          key={tag.id}
+          to={`/tag/${tag.slug}`}
+          className="tag badge badge-light"
+        >
+          {tag.name}
+        </Link>
+      ))}
+    </div>
+  );
+};
+
 export default PostList;
