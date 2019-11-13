@@ -13,7 +13,8 @@ export default class PreviewPage extends Component {
   state = {
     post: {
       title: "",
-      content: ""
+      content: "",
+      slug: ""
     },
     errorMsg: null,
     isLoading: true
@@ -52,7 +53,7 @@ export default class PreviewPage extends Component {
   }
 
   render() {
-    const { title, content, date } = this.state.post;
+    const { title, content, date, slug } = this.state.post;
     const { errorMsg, isLoading } = this.state;
     return (
       <PageLayout>
@@ -63,6 +64,9 @@ export default class PreviewPage extends Component {
           <center>
             <h3 className="preview-header">-- Preview Mode --</h3>
           </center>
+          <div class="alert alert-secondary" role="alert">
+            <strong>slug:</strong> {slug}
+          </div>
         </section>
         {isLoading ? (
           <ArticleLoader />
